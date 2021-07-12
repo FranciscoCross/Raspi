@@ -1,0 +1,2 @@
+Comandos para reiniciar cosas
+	sudo systemctl restart smbd.service
