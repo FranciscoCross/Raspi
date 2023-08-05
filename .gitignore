@@ -1,0 +1,10 @@
+**/**/.env
+**/**/data
+**/**/config.yaml
+**/**/letsencrypt
+**/**/db
+**/**/pihole
+**/**/Pruebas
+**/**/terrariaa
+**/**/wireguard
+**/**/certificate

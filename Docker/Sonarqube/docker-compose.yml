@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  sonar:
+    image: sonarqube-custom 
+    container_name: sonarqube-test
+    privileged: true
+    ports:
+      - '9091:9000'
+    stdin_open: true 
+    tty: true
+    volumes:
+      - ./data/plugins:/opt/sonarqube/extensions/plugins

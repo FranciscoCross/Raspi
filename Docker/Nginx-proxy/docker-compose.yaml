@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      - .env
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.30
+
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    environment:
+      - .env
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.31
+
+networks:
+  monitoreo_cosas:
+    external: true

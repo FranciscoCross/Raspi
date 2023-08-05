@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  influxdb:
+    image: influxdb:1.8.10
+    container_name: influxdb
+    restart: unless-stopped
+    environment:
+      INFLUXDB_DB: DATA
+      INFLUXDB_HTTP_AUTH_ENABLED: "true"
+      INFLUXDB_ADMIN_USER: pancho
+      INFLUXDB_ADMIN_PASSWORD: panchero123321
+      INFLUXDB_USER: pupi11
+      INFLUXDB_USER_PASSWORD: fdlc11
+    ports:
+      - "8082:8082"
+      - "8086:8086"
+      - "8089:8089"
+    volumes:
+      - influxData:/var/lib/influxdb
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.36
+
+networks:
+  monitoreo_cosas:
+    external: true
+volumes:
+  influxData:

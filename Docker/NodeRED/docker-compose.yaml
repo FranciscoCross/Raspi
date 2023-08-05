@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  node-red:
+    image: nodered/node-red
+    container_name: nodeRED
+    environment:
+      - TZ=America/Argentina/Cordoba
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.35
+
+networks:
+  monitoreo_cosas:
+    external: true

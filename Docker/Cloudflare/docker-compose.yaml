@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  cloudflare-ddns:
+    image: joshava/cloudflare-ddns:arm32v6
+    container_name: cloudflare-ddns
+    security_opt:
+      - no-new-privileges:true
+    network_mode: "host"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - CRON=0 * /1 * * *
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    restart: unless-stopped
