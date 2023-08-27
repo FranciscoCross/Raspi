@@ -1,5 +1,30 @@
-version: "2.4"
+version: "3.8"
 services:
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:8.5.10
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoreo_cosas
+    volumes:
+      - ./data/grafana_data:/var/lib/grafana
+    environment:
+      - .env
+    user: "1000"
+
+  node-exporter:
+    container_name: monitoring-node-exporter
+    expose:
+      - 9100
+    hostname: rpi-exporter
+    image: prom/node-exporter:v1.4.0
+    networks:
+      - monitoreo_cosas
+    restart: unless-stopped
+
   cadvisor:
     command:
       - '--docker_only=true'
@@ -14,7 +39,7 @@ services:
     expose:
       - 8080
     hostname: rpi-cadvisor
-    image: zcube/cadvisor:latest
+    image: zcube/cadvisor:v0.45.0
     ipc: shareable
     networks:
       - monitoreo_cosas
@@ -29,38 +54,6 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /etc/machine-id:/etc/machine-id:ro
 
-  grafana:
-    container_name: monitoring-grafana
-    environment:
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
-      - GF_PATHS_DATA=/var/lib/grafana
-      - GF_PATHS_HOME=/usr/share/grafana
-      - GF_PATHS_LOGS=/var/log/grafana
-      - GF_PATHS_PLUGINS=/var/lib/grafana/plugins
-      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-    hostname: rpi-grafana
-    image: grafana/grafana:latest
-    networks:
-      - monitoreo_cosas
-    ports:
-      - 3000:3000
-    restart: unless-stopped
-    volumes:
-      # to be modified depending on your needs
-      - /portainer/Files/AppData/Config/grafana/data:/var/lib/grafana
-      - /portainer/Files/AppData/Config/grafana/grafana.ini:/etc/grafana/grafana.ini
-      - /portainer/Files/AppData/Config/grafana/provisioning:/etc/grafana/provisioning
-
-  node-exporter:
-    container_name: monitoring-node-exporter
-    expose:
-      - 9100
-    hostname: rpi-exporter
-    image: prom/node-exporter:latest
-    networks:
-      - monitoreo_cosas
-    restart: unless-stopped
 
   prometheus:
     command:
@@ -71,15 +64,15 @@ services:
     expose:
       - 9090
     hostname: rpi-prom
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.36.2
     user: root
     networks:
       - monitoreo_cosas
     restart: unless-stopped
     volumes:
       # to be modified depending on your needs
-      - /portainer/Files/AppData/Config/prometheus/data:/prometheus
-      - /portainer/Files/AppData/Config/prometheus/config:/etc/prometheus/
+      - ./data/prometheus/data:/prometheus
+      - ./data/prometheus/config:/etc/prometheus/
     links:
       - cadvisor:cadvisor
       - node-exporter:node-exporter
