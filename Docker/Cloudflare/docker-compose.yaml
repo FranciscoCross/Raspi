@@ -9,7 +9,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - CRON=0 * /1 * * *
+      - CRON=0 */12 * * *
     volumes:
       - ./config.yaml:/app/config.yaml
-    restart: unless-stopped
+    restart: always
