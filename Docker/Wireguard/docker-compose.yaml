@@ -4,14 +4,13 @@ services:
     environment:
       # ⚠️ Required:
       # Change this to your host's public address
-      - WG_HOST=terrariapancho.ddns.net
+      - WG_HOST=power-pot.com
       # Optional:
       - PASSWORD=fdlc110998
       - WG_PORT=51820
-      - WG_DEFAULT_DNS=172.23.0.32
+      - WG_DEFAULT_DNS=8.8.8.8
       - WG_ALLOWED_IPS=0.0.0.0/0
-
-    image: weejewel/wg-easy
+    image: weejewel/wg-easy:7-nightly
     container_name: wg-easy
     volumes:
       - ./wireguard:/etc/wireguard

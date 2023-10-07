@@ -3,12 +3,11 @@ version: "3.8"
 services:
 
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:linux-arm
     container_name: portainer
-
     hostname: portainer
-
-    user: root
+    command: -H unix:///var/run/docker.sock 
+    
     networks:
       - monitoreo_cosas
     ports:
@@ -16,8 +15,11 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./portainer_data:/data
+    environment:
+    - TZ=America/Argentina/Cordoba
 volumes:
   portainer_data:
 networks:
   monitoreo_cosas:
+    external: true
