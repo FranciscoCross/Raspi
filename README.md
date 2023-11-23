@@ -19,12 +19,44 @@ El próximo paso es intalar Docker Compose. En distribuciones basadas en Ubuntu 
 sudo apt install docker-compose
 ```
 
-Portainer
+### Portainer
+Una herramienta muy útil para administrar los contenedores de Docker que se ejecutan en el servidor es Portainer. Esta herramienta ofrece una interfaz web que permite visualizar, reiniciar y detener contenedores con problemas. Para instalarla ejecutar el comando:
+```
 docker run -d  -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data --network monitoreo_cosas portainer/portainer-ce:latest
+```
+Para ver la interfaz del programa ingrese a un navegador y coloque en la barra de direcciones IP_RASPI:9000, donde IP_RASPI es la dirección IP privada de la Raspberry Pi que ejecuta Portainer.
 
-Forwardear Puertos:
-MQTT 1883
-Webserver 443
+## Runner Self-Hosted
+El Runner es el servicio que ejecuta las tareas de los Workflows de GitHub Actions. Ejecuta la compilación, testeo y configuración del binario resultante cada vez que haya una nueva versión disponible en el repositorio ESP32 (LINK).
+
+### Credenciales
+Antes de poder iniciar el Runner se deben configurar las credenciales. Para esto se debe acceder a la carpeta **/Docker/Github-docker-runner** y crear un archivo llamado ".env" en el cual se indican las siguientes variables de entorno.
+```
+RUNNER_REPOSITORY_URL=Link del Repositorio ESP32
+GITHUB_ACCESS_TOKEN=Token
+```
+
+Debe crear un GitHub Access Token en su cuenta de GitHub, como se indica en la imagen.
+
+IMAGEN
+
+
+Para iniciarlo, dirigirse a la carpeta /Docker/Github-docker-runner y ejecutar el comando:
+```
+docker-compose up -d
+```
+
+Al generar un nuevo token, debe elegir que permisos asignarle, asegúrese de tildar los siguientes:
+
+- **repo**
+- **workflow**
+
+
+### Puertos
+Para tener acceso a los servicios públicos se debe configurar el Router para redireccionar el tráfico entrante por los puertos que se indican a continuación.
+- **1883 para MQTT**
+- **443 para el Servidor Web de Actualizaciones de Firmware**
+Todos los puertos deben redireccionar el tráfico hacia la IP privada de la Raspberry Pi.
 
 Todo con Docker-Compose
 - Runner self hosted
