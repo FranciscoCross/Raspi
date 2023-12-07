@@ -1,13 +1,19 @@
-version: "3.7"
+version: "3.8"
 
 services:
   sonar:
-    image: sonarqube-custom 
-    container_name: sonarqube-test
+    image: sonarqube-custom:v10
+    container_name: sonarqube-app
     privileged: true
     ports:
       - '9091:9000'
     stdin_open: true 
+    networks:
+      - monitoreo_cosas
     tty: true
     volumes:
-      - ./data/plugins:/opt/sonarqube/extensions/plugins
+      - ./sonarqube_data/data/plugins:/opt/sonarqube/extensions/plugins
+
+networks:
+  monitoreo_cosas:
+    external: true

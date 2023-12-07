@@ -12,7 +12,9 @@ services:
       GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sockz
-      - ${UPDATE_SERVER_PATH}/data:/home/runner/firmware
+      - ${UPDATE_SERVER_PATH_DEV}/data:/home/runner/dev/firmware
+      - ${UPDATE_SERVER_PATH_QA}/data:/home/runner/qa/firmware
+      - ${UPDATE_SERVER_PATH_PRD}/data:/home/runner/prd/firmware
 
     devices:
       - '/dev/ttyUSB0:/dev/ttyUSB0'

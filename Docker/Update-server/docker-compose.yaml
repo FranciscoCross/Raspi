@@ -1,19 +1,48 @@
 version: '3.8'
 
 services:
-  nginx-test:
-    container_name: firmware-nginx
+  nginx-dev:
+    container_name: firmware-nginx-dev
     image: nginx:alpine-slim
     ports:
       - 9191:80
     volumes:
       - ./nginx-conf:/etc/nginx
-      - ./data:/var/www/updateserver
+      - ./dev/data:/var/www/updateserver
     restart: unless-stopped
     privileged: true
     networks:
       monitoreo_cosas:
-        ipv4_address: 172.23.0.41
+        ipv4_address: 172.23.0.42
+  
+  nginx-qa:
+    container_name: firmware-nginx-qa
+    image: nginx:alpine-slim
+    ports:
+      - 9192:80
+    volumes:
+      - ./nginx-conf:/etc/nginx
+      - ./qa/data:/var/www/updateserver
+    restart: unless-stopped
+    privileged: true
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.43
+
+  nginx-prd:
+    container_name: firmware-nginx-prd
+    image: nginx:alpine-slim
+    ports:
+      - 9193:80
+    volumes:
+      - ./nginx-conf:/etc/nginx
+      - ./prd/data:/var/www/updateserver
+    restart: unless-stopped
+    privileged: true
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.44
+
 networks:
   monitoreo_cosas:
     external: true
