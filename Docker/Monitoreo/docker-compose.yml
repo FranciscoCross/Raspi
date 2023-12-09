@@ -3,7 +3,7 @@ services:
 
   grafana:
     container_name: grafana
-    image: grafana/grafana:8.5.10
+    image: grafana/grafana:10.1.2
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -64,7 +64,7 @@ services:
     expose:
       - 9090
     hostname: rpi-prom
-    image: prom/prometheus:v2.36.2
+    image: prom/prometheus-linux-armv7:v2.48.0
     user: root
     networks:
       - monitoreo_cosas
