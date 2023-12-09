@@ -12,7 +12,14 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
+    networks:
+      monitoreo_cosas:
+        ipv4_address: 172.23.0.55
 volumes:
   config:
   data:
   log:
+
+networks:
+  monitoreo_cosas:
+    external: true
