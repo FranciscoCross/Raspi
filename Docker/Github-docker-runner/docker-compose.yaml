@@ -5,6 +5,8 @@ services:
     image: feedehc/github-docker-runner:linux-arm-v2.311.0
     container_name: runner-self-hosted
     privileged: true
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
     environment:
       RUNNER_NAME: "runner-esp32"
       RUNNER_REPOSITORY_URL: ${RUNNER_REPOSITORY_URL}
